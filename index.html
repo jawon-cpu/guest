@@ -5,36 +5,26 @@
   <title>FLESH FALLING VISITOR'S BOOK</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Noto Sans -->
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;700;900&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: "Noto Sans", sans-serif;
-
-      /* 🔥 Full background */
       background-image: url("bg.jpg");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       background-attachment: fixed;
 
-      /* 모든 글씨 빨간색 */
       color: #ff0000;
-
       display: flex;
       justify-content: center;
       padding: 24px;
       min-height: 100vh;
     }
 
-    /* 🔥 container 완전 투명 */
     .container {
       width: 100%;
       max-width: 720px;
@@ -42,26 +32,37 @@
       padding: 24px 20px 28px;
     }
 
+    /* 제목만 얇게 */
     h1 {
       font-size: 32px;
-      font-weight: 700;
+      font-weight: 700; 
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: #ff0000;
-      margin-bottom: 6px;
-    }
-
-    .subtitle {
-      font-size: 14px;
       margin-bottom: 20px;
-      color: #ff0000;
     }
 
-    /* 입력창 박스 완전 투명 */
+    /* ⚠️ 부제 삭제됨 */
+
+    /* 전체 글씨 → 3배 굵게 */
+    label,
+    input,
+    textarea,
+    button,
+    .count,
+    .entry,
+    .entry-name,
+    .entry-time,
+    .entry-message,
+    .empty,
+    .footer {
+      font-weight: 900 !important;
+    }
+
     form {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 12px;
       margin-bottom: 20px;
       background: transparent;
       border: none;
@@ -69,136 +70,126 @@
     }
 
     label {
-      font-size: 13px;
+      font-size: 14px;
       color: #ff0000;
-      font-weight: 500;
     }
 
     input[type="text"],
     textarea {
       width: 100%;
-      padding: 8px 10px;
+      padding: 12px 12px;
 
-      /* 🔥 완전 투명 */
       background: transparent;
 
-      border: 1px solid #ff0000;
-      border-radius: 8px;
+      /* 🔥 테두리 굵기 3배 */
+      border: 3px solid #ff0000;
 
+      border-radius: 10px;
       color: #ff0000;
-      font-size: 14px;
+      font-size: 15px;
     }
 
     input::placeholder,
     textarea::placeholder {
-      color: rgba(255, 0, 0, 0.65);
+      color: rgba(255, 0, 0, 0.6);
+      font-weight: 700;
     }
 
     input:focus,
     textarea:focus {
       outline: none;
-      border-color: #ff0000;
-      box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.25);
+      border: 3px solid #ff0000;
+      box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.25);
     }
 
     textarea {
-      min-height: 80px;
-      max-height: 200px;
+      min-height: 90px;
+      max-height: 210px;
     }
 
     .btn-row {
       display: flex;
       justify-content: flex-end;
-      gap: 8px;
-      margin-top: 4px;
+      gap: 10px;
+      margin-top: 6px;
     }
 
-    /* 버튼 빨강 버전 */
     button {
-      border: 1px solid #ff0000;
+      border: 3px solid #ff0000;
       background: rgba(255, 0, 0, 0.15);
       color: #ff0000;
-      padding: 8px 18px;
+
+      padding: 10px 26px;
       border-radius: 999px;
-      font-size: 14px;
+      font-size: 15px;
+
       cursor: pointer;
       transition: 0.2s;
-      font-weight: 500;
+      font-weight: 900 !important;
     }
 
     button:hover {
-      background: rgba(255, 0, 0, 0.3);
+      background: rgba(255, 0, 0, 0.35);
     }
-
     button:active {
       transform: translateY(1px);
       background: rgba(255, 0, 0, 0.45);
     }
 
     .count {
-      font-size: 12px;
+      font-size: 14px;
       margin-bottom: 6px;
-      color: #ff0000;
     }
 
     .entries {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      max-height: 420px;
+      gap: 12px;
+      max-height: 450px;
       overflow-y: auto;
-      padding-right: 4px;
+      padding-right: 6px;
     }
 
-    /* entry 박스도 완전 투명 */
     .entry {
       background: transparent;
-      border: 1px solid #ff0000;
-      padding: 12px 12px 10px;
+      border: 3px solid #ff0000;
+      padding: 14px 14px 12px;
       border-radius: 12px;
       color: #ff0000;
     }
 
     .entry-name {
-      font-weight: 700;
-      font-size: 14px;
-      color: #ff0000;
+      font-size: 15px;
     }
 
     .entry-time {
-      font-size: 11px;
+      font-size: 12px;
       color: rgba(255, 0, 0, 0.8);
     }
 
     .entry-message {
-      font-size: 14px;
-      color: #ff0000;
-      margin-top: 4px;
+      font-size: 15px;
+      margin-top: 6px;
       white-space: pre-wrap;
-      word-break: break-word;
     }
 
     .empty {
-      font-size: 13px;
-      color: #ff0000;
-      text-align: center;
-      padding: 24px 8px 8px;
+      font-size: 14px;
+      padding: 26px 8px 10px;
     }
 
     .footer {
-      margin-top: 16px;
+      margin-top: 20px;
       font-size: 11px;
-      color: #ff0000;
       text-align: right;
     }
-
   </style>
 </head>
 
 <body>
   <div class="container">
+
     <h1>FLESH FALLING VISITOR'S BOOK</h1>
-    <p class="subtitle">Leave a trace before you disappear again.</p>
 
     <form id="guestbook-form">
       <div>
@@ -208,7 +199,7 @@
 
       <div>
         <label for="message">Message</label>
-        <textarea id="message" placeholder="What did you see here?"></textarea>
+        <textarea id="message" placeholder="What did you see here? What kind of body were you today?"></textarea>
       </div>
 
       <div class="btn-row">
@@ -221,8 +212,9 @@
     <div class="entries" id="entries"></div>
 
     <div class="footer">
-      <span>All entries are stored only in this browser (localStorage).</span>
+      All entries are stored only in this browser (localStorage).
     </div>
+
   </div>
 
   <script>
@@ -241,7 +233,7 @@
         if (!raw) return [];
         const parsed = JSON.parse(raw);
         return Array.isArray(parsed) ? parsed : [];
-      } catch (e) {
+      } catch {
         return [];
       }
     }
@@ -276,13 +268,11 @@
       }
 
       countEl.textContent = `${entries.length} message(s)`;
-
       const sorted = entries.sort((a, b) => b.createdAt - a.createdAt);
 
       for (const entry of sorted) {
         const div = document.createElement("div");
         div.className = "entry";
-
         div.innerHTML = `
           <div class="entry-header">
             <span class="entry-name">${entry.name}</span>
@@ -290,14 +280,12 @@
           </div>
           <p class="entry-message">${entry.message}</p>
         `;
-
         entriesEl.appendChild(div);
       }
     }
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-
       const name = nameInput.value.trim() || "Anonymous";
       const message = messageInput.value.trim();
 
@@ -307,11 +295,7 @@
       }
 
       const entries = loadEntries();
-      entries.push({
-        name,
-        message,
-        createdAt: Date.now(),
-      });
+      entries.push({ name, message, createdAt: Date.now() });
 
       saveEntries(entries);
       messageInput.value = "";
