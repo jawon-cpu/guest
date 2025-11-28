@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>Guestbook</title>
+  <title>방명록</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <!-- Google Font: Noto Sans -->
@@ -18,8 +18,8 @@
     body {
       font-family: "Noto Sans", sans-serif;
 
-      /* Background image (optional) */
-      background-image: url("bg.jpg");
+      /* 🔥 배경 이미지 적용 */
+      background-image: url("bg.jpg"); /* 같은 폴더에 bg.jpg 넣기 */
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -45,13 +45,13 @@
     }
 
     h1 {
-      font-size: 24px;
+      font-size: 26px;
       margin-bottom: 4px;
       font-weight: 700;
     }
 
     .subtitle {
-      font-size: 13px;
+      font-size: 14px;
       color: #6b7280;
       margin-bottom: 20px;
     }
@@ -208,36 +208,36 @@
 
 <body>
   <div class="container">
-    <h1>Guestbook</h1>
-    <p class="subtitle">Feel free to leave a short message :)</p>
+    <h1>방명록</h1>
+    <p class="subtitle">간단하게 한 줄 남겨 주세요 :)</p>
 
     <form id="guestbook-form">
       <div>
-        <label for="name">Name (Nickname)</label>
-        <input type="text" id="name" placeholder="e.g. Yoon / visitor" />
+        <label for="name">이름 (닉네임)</label>
+        <input type="text" id="name" placeholder="예: 윤정 / visitor" />
       </div>
 
       <div>
-        <label for="message">Message</label>
-        <textarea id="message" placeholder="Write whatever you want to say."></textarea>
+        <label for="message">메시지</label>
+        <textarea id="message" placeholder="하고 싶은 말을 적어 주세요."></textarea>
       </div>
 
       <div class="btn-row">
-        <button type="button" class="btn-clear" id="clear-all">Clear All</button>
-        <button type="submit" class="btn-submit">Submit</button>
+        <button type="button" class="btn-clear" id="clear-all">전체 삭제</button>
+        <button type="submit" class="btn-submit">남기기</button>
       </div>
     </form>
 
-    <p class="count" id="entry-count">No messages yet.</p>
+    <p class="count" id="entry-count">아직 메시지가 없습니다.</p>
     <div class="entries" id="entries"></div>
 
     <div class="footer">
-      <span>Messages are stored locally in your browser (localStorage).</span>
+      <span>이 페이지는 브라우저(localStorage)에만 저장됩니다.</span>
     </div>
   </div>
 
   <script>
-    const STORAGE_KEY = "simple_guestbook_entries_v1_en";
+    const STORAGE_KEY = "simple_guestbook_entries_kor";
 
     const form = document.getElementById("guestbook-form");
     const nameInput = document.getElementById("name");
@@ -276,12 +276,12 @@
       entriesEl.innerHTML = "";
 
       if (entries.length === 0) {
-        countEl.textContent = "No messages yet.";
-        entriesEl.innerHTML = '<p class="empty">No messages have been added.</p>';
+        countEl.textContent = "아직 메시지가 없습니다.";
+        entriesEl.innerHTML = '<p class="empty">메시지가 아직 없습니다.</p>';
         return;
       }
 
-      countEl.textContent = `${entries.length} message(s)`;
+      countEl.textContent = `${entries.length}개의 메시지가 있습니다.`;
 
       const sorted = entries.sort((a, b) => b.createdAt - a.createdAt);
 
@@ -316,11 +316,11 @@
     form.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      const name = nameInput.value.trim() || "Anonymous";
+      const name = nameInput.value.trim() || "익명";
       const message = messageInput.value.trim();
 
       if (!message) {
-        alert("Please write a message.");
+        alert("메시지를 입력해 주세요.");
         return;
       }
 
@@ -337,13 +337,5 @@
     });
 
     clearBtn.addEventListener("click", () => {
-      if (confirm("Are you sure you want to delete all messages?")) {
-        localStorage.removeItem(STORAGE_KEY);
-        renderEntries();
-      }
-    });
-
-    renderEntries();
-  </script>
-</body>
-</html>
+      if (confirm("모든 메시지를 삭제할까요?")) {
+        loca
