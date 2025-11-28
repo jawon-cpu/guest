@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>방명록</title>
+  <title>FLESH FALLING VISITOR'S BOOK</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Google Font: Noto Sans -->
+  <!-- Noto Sans -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 
   <style>
@@ -18,14 +18,14 @@
     body {
       font-family: "Noto Sans", sans-serif;
 
-      /* 🔥 배경 이미지 적용 */
-      background-image: url("bg.jpg"); /* 같은 폴더에 bg.jpg 넣기 */
+      /* 🔥 Background image (place bg.jpg in the same folder) */
+      background-image: url("bg.jpg");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       background-attachment: fixed;
 
-      color: #111827;
+      color: #f9fafb;
       display: flex;
       justify-content: center;
       padding: 24px;
@@ -36,24 +36,29 @@
       width: 100%;
       max-width: 720px;
 
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(6px);
+      /* 🔥 fully transparent card */
+      background: transparent;
+      backdrop-filter: none;
 
       border-radius: 16px;
       padding: 24px 20px 28px;
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
+      box-shadow: none;
     }
 
     h1 {
       font-size: 26px;
       margin-bottom: 4px;
       font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
     }
 
     .subtitle {
-      font-size: 14px;
-      color: #6b7280;
+      font-size: 13px;
+      color: #e5e7eb;
       margin-bottom: 20px;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
     }
 
     form {
@@ -63,13 +68,15 @@
       margin-bottom: 20px;
       padding: 16px;
       border-radius: 12px;
-      background: rgba(249, 250, 251, 0.8);
-      border: 1px solid #e5e7eb;
+
+      /* slightly dark transparent block so inputs 보이게만 */
+      background: rgba(15, 23, 42, 0.45);
+      border: 1px solid rgba(148, 163, 184, 0.7);
     }
 
     label {
       font-size: 13px;
-      color: #4b5563;
+      color: #e5e7eb;
       font-weight: 500;
     }
 
@@ -78,17 +85,23 @@
       width: 100%;
       padding: 8px 10px;
       border-radius: 8px;
-      border: 1px solid #d1d5db;
+      border: 1px solid rgba(148, 163, 184, 0.9);
       font-size: 14px;
       resize: vertical;
-      background: #ffffff;
+      background: rgba(15, 23, 42, 0.8);
+      color: #f9fafb;
+    }
+
+    input[type="text"]::placeholder,
+    textarea::placeholder {
+      color: rgba(156, 163, 175, 0.9);
     }
 
     input[type="text"]:focus,
     textarea:focus {
       outline: none;
-      border-color: #6366f1;
-      box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.25);
+      border-color: #a855f7;
+      box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.35);
     }
 
     textarea {
@@ -117,34 +130,35 @@
     }
 
     .btn-submit {
-      background: #4f46e5;
-      color: #ffffff;
-      box-shadow: 0 6px 14px rgba(79, 70, 229, 0.3);
+      background: #a855f7;
+      color: #f9fafb;
+      box-shadow: 0 6px 14px rgba(88, 28, 135, 0.7);
     }
 
     .btn-submit:hover {
-      background: #4338ca;
+      background: #9333ea;
     }
 
     .btn-submit:active {
       transform: translateY(1px);
-      box-shadow: 0 3px 8px rgba(79, 70, 229, 0.4);
+      box-shadow: 0 3px 8px rgba(88, 28, 135, 0.9);
     }
 
     .btn-clear {
       background: transparent;
-      color: #6b7280;
-      border: 1px solid #d1d5db;
+      color: #e5e7eb;
+      border: 1px solid rgba(148, 163, 184, 0.9);
     }
 
     .btn-clear:hover {
-      background: #f3f4f6;
+      background: rgba(15, 23, 42, 0.7);
     }
 
     .count {
       font-size: 12px;
-      color: #9ca3af;
+      color: #e5e7eb;
       margin-bottom: 6px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
     }
 
     .entries {
@@ -159,8 +173,9 @@
     .entry {
       padding: 12px 12px 10px;
       border-radius: 12px;
-      background: rgba(249, 250, 251, 0.8);
-      border: 1px solid #e5e7eb;
+
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(148, 163, 184, 0.8);
     }
 
     .entry-header {
@@ -174,6 +189,7 @@
     .entry-name {
       font-weight: 600;
       font-size: 14px;
+      color: #e5e7eb;
     }
 
     .entry-time {
@@ -186,58 +202,59 @@
       font-size: 14px;
       white-space: pre-wrap;
       word-break: break-word;
-      color: #374151;
+      color: #f9fafb;
     }
 
     .empty {
       font-size: 13px;
-      color: #9ca3af;
+      color: #e5e7eb;
       text-align: center;
       padding: 24px 8px 8px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
     }
 
     .footer {
       margin-top: 16px;
       font-size: 11px;
-      color: #9ca3af;
+      color: #e5e7eb;
       text-align: right;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
     }
-
   </style>
 </head>
 
 <body>
   <div class="container">
-    <h1>방명록</h1>
-    <p class="subtitle">간단하게 한 줄 남겨 주세요 :)</p>
+    <h1>FLESH FALLING VISITOR'S BOOK</h1>
+    <p class="subtitle">Leave a trace before you disappear again.</p>
 
     <form id="guestbook-form">
       <div>
-        <label for="name">이름 (닉네임)</label>
-        <input type="text" id="name" placeholder="예: 윤정 / visitor" />
+        <label for="name">Name (Nickname)</label>
+        <input type="text" id="name" placeholder="e.g. anonymous flesh, stray signal" />
       </div>
 
       <div>
-        <label for="message">메시지</label>
-        <textarea id="message" placeholder="하고 싶은 말을 적어 주세요."></textarea>
+        <label for="message">Message</label>
+        <textarea id="message" placeholder="What did you see here? What kind of body were you today?"></textarea>
       </div>
 
       <div class="btn-row">
-        <button type="button" class="btn-clear" id="clear-all">전체 삭제</button>
-        <button type="submit" class="btn-submit">남기기</button>
+        <button type="button" class="btn-clear" id="clear-all">Clear All</button>
+        <button type="submit" class="btn-submit">Submit</button>
       </div>
     </form>
 
-    <p class="count" id="entry-count">아직 메시지가 없습니다.</p>
+    <p class="count" id="entry-count">No messages yet.</p>
     <div class="entries" id="entries"></div>
 
     <div class="footer">
-      <span>이 페이지는 브라우저(localStorage)에만 저장됩니다.</span>
+      <span>All entries are stored locally in this browser (localStorage).</span>
     </div>
   </div>
 
   <script>
-    const STORAGE_KEY = "simple_guestbook_entries_kor";
+    const STORAGE_KEY = "flesh_falling_guestbook_v1";
 
     const form = document.getElementById("guestbook-form");
     const nameInput = document.getElementById("name");
@@ -276,12 +293,12 @@
       entriesEl.innerHTML = "";
 
       if (entries.length === 0) {
-        countEl.textContent = "아직 메시지가 없습니다.";
-        entriesEl.innerHTML = '<p class="empty">메시지가 아직 없습니다.</p>';
+        countEl.textContent = "No messages yet.";
+        entriesEl.innerHTML = '<p class="empty">No messages have been added.</p>';
         return;
       }
 
-      countEl.textContent = `${entries.length}개의 메시지가 있습니다.`;
+      countEl.textContent = `${entries.length} message(s)`;
 
       const sorted = entries.sort((a, b) => b.createdAt - a.createdAt);
 
@@ -316,11 +333,11 @@
     form.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      const name = nameInput.value.trim() || "익명";
+      const name = nameInput.value.trim() || "Anonymous";
       const message = messageInput.value.trim();
 
       if (!message) {
-        alert("메시지를 입력해 주세요.");
+        alert("Please write a message.");
         return;
       }
 
@@ -337,5 +354,13 @@
     });
 
     clearBtn.addEventListener("click", () => {
-      if (confirm("모든 메시지를 삭제할까요?")) {
-        loca
+      if (confirm("Are you sure you want to delete all messages?")) {
+        localStorage.removeItem(STORAGE_KEY);
+        renderEntries();
+      }
+    });
+
+    renderEntries();
+  </script>
+</body>
+</html>
