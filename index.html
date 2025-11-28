@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>방명록</title>
+  <title>Guestbook</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Google Font: Noto Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 
   <style>
     * {
@@ -13,18 +16,29 @@
     }
 
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f4f4f5;
+      font-family: "Noto Sans", sans-serif;
+
+      /* Background image (optional) */
+      background-image: url("bg.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+
       color: #111827;
       display: flex;
       justify-content: center;
       padding: 24px;
+      min-height: 100vh;
     }
 
     .container {
       width: 100%;
       max-width: 720px;
-      background: #ffffff;
+
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(6px);
+
       border-radius: 16px;
       padding: 24px 20px 28px;
       box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
@@ -33,6 +47,7 @@
     h1 {
       font-size: 24px;
       margin-bottom: 4px;
+      font-weight: 700;
     }
 
     .subtitle {
@@ -48,13 +63,14 @@
       margin-bottom: 20px;
       padding: 16px;
       border-radius: 12px;
-      background: #f9fafb;
+      background: rgba(249, 250, 251, 0.8);
       border: 1px solid #e5e7eb;
     }
 
     label {
       font-size: 13px;
       color: #4b5563;
+      font-weight: 500;
     }
 
     input[type="text"],
@@ -97,6 +113,7 @@
       align-items: center;
       gap: 4px;
       transition: transform 0.05s ease, box-shadow 0.1s ease, background 0.1s ease;
+      font-weight: 500;
     }
 
     .btn-submit {
@@ -142,7 +159,7 @@
     .entry {
       padding: 12px 12px 10px;
       border-radius: 12px;
-      background: #f9fafb;
+      background: rgba(249, 250, 251, 0.8);
       border: 1px solid #e5e7eb;
     }
 
@@ -186,48 +203,41 @@
       text-align: right;
     }
 
-    .footer span {
-      opacity: 0.8;
-    }
   </style>
 </head>
+
 <body>
   <div class="container">
-    <h1>방명록</h1>
-    <p class="subtitle">간단하게 한 줄 남기고 가세요 :)</p>
+    <h1>Guestbook</h1>
+    <p class="subtitle">Feel free to leave a short message :)</p>
 
     <form id="guestbook-form">
       <div>
-        <label for="name">이름 (닉네임)</label>
-        <input type="text" id="name" placeholder="예: 윤정 / visitor" />
+        <label for="name">Name (Nickname)</label>
+        <input type="text" id="name" placeholder="e.g. Yoon / visitor" />
       </div>
 
       <div>
-        <label for="message">메시지</label>
-        <textarea id="message" placeholder="오늘 느낌, 응원 한마디 등을 자유롭게 적어 주세요."></textarea>
+        <label for="message">Message</label>
+        <textarea id="message" placeholder="Write whatever you want to say."></textarea>
       </div>
 
       <div class="btn-row">
-        <button type="button" class="btn-clear" id="clear-all">
-          전체 삭제
-        </button>
-        <button type="submit" class="btn-submit">
-          남기기
-        </button>
+        <button type="button" class="btn-clear" id="clear-all">Clear All</button>
+        <button type="submit" class="btn-submit">Submit</button>
       </div>
     </form>
 
-    <p class="count" id="entry-count">0개의 메시지가 있습니다.</p>
+    <p class="count" id="entry-count">No messages yet.</p>
     <div class="entries" id="entries"></div>
 
     <div class="footer">
-      <span>이 페이지는 브라우저에만 저장됩니다 (localStorage).</span>
+      <span>Messages are stored locally in your browser (localStorage).</span>
     </div>
   </div>
 
   <script>
-    // 방명록 데이터를 저장할 key 이름
-    const STORAGE_KEY = "simple_guestbook_entries_v1";
+    const STORAGE_KEY = "simple_guestbook_entries_v1_en";
 
     const form = document.getElementById("guestbook-form");
     const nameInput = document.getElementById("name");
@@ -236,73 +246,21 @@
     const countEl = document.getElementById("entry-count");
     const clearBtn = document.getElementById("clear-all");
 
-    // 저장된 데이터 불러오기
     function loadEntries() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
         if (!raw) return [];
         const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed)) {
-          return parsed;
-        }
-        return [];
+        return Array.isArray(parsed) ? parsed : [];
       } catch (e) {
-        console.error("방명록 데이터를 불러오지 못했습니다.", e);
         return [];
       }
     }
 
-    // 데이터 저장하기
     function saveEntries(entries) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
     }
 
-    // 화면에 그리기
-    function renderEntries() {
-      const entries = loadEntries();
-      entriesEl.innerHTML = "";
-
-      if (entries.length === 0) {
-        entriesEl.innerHTML = '<p class="empty">아직 남겨진 메시지가 없습니다.</p>';
-        countEl.textContent = "0개의 메시지가 있습니다.";
-        return;
-      }
-
-      countEl.textContent = entries.length + "개의 메시지가 있습니다.";
-
-      // 최신 글이 위로 오게 역순 정렬
-      const sorted = [...entries].sort((a, b) => b.createdAt - a.createdAt);
-
-      for (const entry of sorted) {
-        const div = document.createElement("div");
-        div.className = "entry";
-
-        const header = document.createElement("div");
-        header.className = "entry-header";
-
-        const nameSpan = document.createElement("span");
-        nameSpan.className = "entry-name";
-        nameSpan.textContent = entry.name || "익명";
-
-        const timeSpan = document.createElement("span");
-        timeSpan.className = "entry-time";
-        timeSpan.textContent = formatDate(entry.createdAt);
-
-        header.appendChild(nameSpan);
-        header.appendChild(timeSpan);
-
-        const msgP = document.createElement("p");
-        msgP.className = "entry-message";
-        msgP.textContent = entry.message;
-
-        div.appendChild(header);
-        div.appendChild(msgP);
-
-        entriesEl.appendChild(div);
-      }
-    }
-
-    // 날짜 포맷 (YYYY-MM-DD HH:MM)
     function formatDate(ts) {
       const d = new Date(ts);
       const y = d.getFullYear();
@@ -313,40 +271,78 @@
       return `${y}-${m}-${day} ${h}:${min}`;
     }
 
-    // 폼 전송 처리
+    function renderEntries() {
+      const entries = loadEntries();
+      entriesEl.innerHTML = "";
+
+      if (entries.length === 0) {
+        countEl.textContent = "No messages yet.";
+        entriesEl.innerHTML = '<p class="empty">No messages have been added.</p>';
+        return;
+      }
+
+      countEl.textContent = `${entries.length} message(s)`;
+
+      const sorted = entries.sort((a, b) => b.createdAt - a.createdAt);
+
+      for (const entry of sorted) {
+        const div = document.createElement("div");
+        div.className = "entry";
+
+        const header = document.createElement("div");
+        header.className = "entry-header";
+
+        const nameSpan = document.createElement("span");
+        nameSpan.className = "entry-name";
+        nameSpan.textContent = entry.name;
+
+        const timeSpan = document.createElement("span");
+        timeSpan.className = "entry-time";
+        timeSpan.textContent = formatDate(entry.createdAt);
+
+        const msgP = document.createElement("p");
+        msgP.className = "entry-message";
+        msgP.textContent = entry.message;
+
+        header.appendChild(nameSpan);
+        header.appendChild(timeSpan);
+        div.appendChild(header);
+        div.appendChild(msgP);
+
+        entriesEl.appendChild(div);
+      }
+    }
+
     form.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      const name = nameInput.value.trim();
+      const name = nameInput.value.trim() || "Anonymous";
       const message = messageInput.value.trim();
 
       if (!message) {
-        alert("메시지를 입력해 주세요.");
+        alert("Please write a message.");
         return;
       }
 
       const entries = loadEntries();
       entries.push({
-        name: name || "익명",
+        name,
         message,
         createdAt: Date.now(),
       });
+
       saveEntries(entries);
-
-      // 입력창 비우기
       messageInput.value = "";
-
-      // 화면 새로 그리기
       renderEntries();
     });
 
     clearBtn.addEventListener("click", () => {
-      if (!confirm("정말로 모든 방명록을 삭제할까요? (이 브라우저에서만 삭제됩니다)")) return;
-      localStorage.removeItem(STORAGE_KEY);
-      renderEntries();
+      if (confirm("Are you sure you want to delete all messages?")) {
+        localStorage.removeItem(STORAGE_KEY);
+        renderEntries();
+      }
     });
 
-    // 처음 로드 시 실행
     renderEntries();
   </script>
 </body>
